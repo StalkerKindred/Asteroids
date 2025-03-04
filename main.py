@@ -49,7 +49,11 @@ def main():
             if True == steroid.collision_check(player):
                 print("Game over!")
                 exit()
-        #Flip
+            for bullet in shots:
+                if True == steroid.collision_check(bullet):
+                    steroid.split()
+                    pygame.sprite.Sprite.kill(bullet)
+        #Flip       
         pygame.display.flip()
 
 
