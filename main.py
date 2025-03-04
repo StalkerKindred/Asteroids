@@ -35,6 +35,11 @@ def main():
         pygame.Surface.fill(screen, (0,0,0))
         for drawing in drawable:
             drawing.draw(screen)
+        #Collision check
+        for steroid in asteroids:
+            if True == steroid.collision_check(player):
+                print("Game over!")
+                exit()
         #Flip
         pygame.display.flip()
 
