@@ -1,2 +1,2 @@
 # Asteroid
-An Asteroid game
+An Asteroid game for boot.dev course 
