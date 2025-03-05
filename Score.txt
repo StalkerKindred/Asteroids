@@ -1,0 +1,5 @@
+Current highscore : 
+Check if the exists 
+        print current high score
+    if not create
+    
