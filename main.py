@@ -1,10 +1,15 @@
+#Imports
 import pygame
 from constants import *
 from player import Player,Shot
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+import highscore
+#activating virtual: source venv/bin/activate
 pygame.init()
+#Game Screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
 def main():
     #Console
     print("Starting Asteroids!")
@@ -21,7 +26,9 @@ def main():
         img = font.render(text, True, text_col)
         screen.blit(img, (x, y))
     text_font = pygame.font.SysFont(None, 30)
+
     score = 0
+    current_high_score = highscore.load_high_score()
     #Groups
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
@@ -58,6 +65,12 @@ def main():
         for steroid in asteroids:
             if True == steroid.collision_check(player):
                 print("Game over!")
+                print(f"Current score: {score}")
+                if score > current_high_score:
+                    print(f"Congratulations you managed to beat you highest score of {current_high_score}!!!")
+                    highscore.save_high_score(score)
+                    current_high_score = score
+                print(f"Highest score: {current_high_score}")
                 exit()
             for bullet in shots:
                 if True == steroid.collision_check(bullet):
