@@ -51,25 +51,46 @@ def main():
     start = 1
     #Status
     game_state = "START"
+    previous_game_state = game_state
+    #Keys
+    keys = pygame.key.get_pressed()
     #Game Loop
     while True:
         #dt
         dt = clock.tick(60) / 1000
-        #Exiting
+        if keys[pygame.K_t]:
+            game_state = "TUTORIAL"
+        #Exiting and logic switching
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-            if game_state == "START" and event.type == pygame.KEYDOWN:
-                game_state = "PLAYING"
-            # Clear remaining events
-                pygame.event.clear()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_t:
+                    if game_state == "TUTORIAL":
+                        game_state = previous_game_state
+                    else:
+                        previous_game_state = game_state
+                        game_state = "TUTORIAL"
+                elif game_state == "START":
+                    game_state = "PLAYING"
+                    previous_game_state = game_state
         #Screen
         pygame.Surface.fill(screen, (0,0,0))
         # Gamestate Logic
+            #Start
         if game_state == "START":
             draw_text(f"Asteroids", text_font, (255,255,255), SCREEN_WIDTH / 2, SCREEN_HEIGHT * 0.30, centered=True)
             draw_text(f"Version: {GAME_VERSION}", text_font, (255,255,255), 3, SCREEN_HEIGHT - 20, centered=False)
             draw_text("Press any keys to continue", text_font, (255,255,255), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, centered=True)
+            draw_text("Press T for tutorial", text_font, (255,255,255), SCREEN_WIDTH / 2, (SCREEN_HEIGHT / 2) - 20 , centered=True)
+            #Tutorial Drawing
+        elif game_state == "TUTORIAL":
+            draw_text("Welcome to the tutorial screen:", text_font, (255,255,255), SCREEN_WIDTH * 0.10, SCREEN_HEIGHT * 0.10, centered=False)
+            draw_text("Press W to move forward and S to move backwards", text_font, (255,255,255), SCREEN_WIDTH * 0.10, SCREEN_HEIGHT * 0.20, centered=False)
+            draw_text("Press A to rotate left and D to rotate right", text_font, (255,255,255), SCREEN_WIDTH * 0.10, SCREEN_HEIGHT * 0.30, centered=False)
+            draw_text("Press Space to shoot bullets", text_font, (255,255,255), SCREEN_WIDTH * 0.10, SCREEN_HEIGHT * 0.40, centered=False)
+            draw_text("Shoots bullets at asteroids to increase your score", text_font, (255,255,255), SCREEN_WIDTH * 0.10, SCREEN_HEIGHT * 0.50, centered=False)
+            #Game
         elif game_state == "PLAYING":
             #Update
             for updating in updatable:

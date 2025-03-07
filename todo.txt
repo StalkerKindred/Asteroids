@@ -1,7 +1,3 @@
-Start menu:
-Asteroids(version)
-press any key to Start
-
 Pause:
 exc to Pause
 exc to unpause
@@ -11,4 +7,4 @@ Lost menu:
 show highscore
 show this session score
 meme you died
-option to quit or restart 
+option to quit or restart and tutorial
