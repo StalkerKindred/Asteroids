@@ -74,6 +74,13 @@ def main():
                 elif game_state == "START":
                     game_state = "PLAYING"
                     previous_game_state = game_state
+                elif game_state == "DEATHSCREEN":
+                    if event.key == pygame.K_r:
+                        game_state = "START"
+                        score = 0
+                        pygame.display.flip()
+                    elif event.key == pygame.K_ESCAPE:
+                        exit()
         #Screen
         pygame.Surface.fill(screen, (0,0,0))
         # Gamestate Logic
@@ -91,6 +98,9 @@ def main():
             draw_text("Press Space to shoot bullets", text_font, (255,255,255), SCREEN_WIDTH * 0.10, SCREEN_HEIGHT * 0.40, centered=False)
             draw_text("Shoots bullets at asteroids to increase your score", text_font, (255,255,255), SCREEN_WIDTH * 0.10, SCREEN_HEIGHT * 0.50, centered=False)
             #Game
+        elif game_state == "DEATHSCREEN":
+            draw_text(f"Your score: {score}", text_font, (255,255,255), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, centered=True)
+            draw_text("Press R to restart", text_font, (255,255,255), SCREEN_WIDTH / 2, (SCREEN_HEIGHT / 2) - 20, centered=True)
         elif game_state == "PLAYING":
             #Update
             for updating in updatable:
@@ -106,14 +116,12 @@ def main():
             #Collision check
             for steroid in asteroids:
                 if True == steroid.collision_check(player):
-                    print("Game over!")
-                    print(f"Current score: {score}")
                     if score > current_high_score:
-                        print(f"Congratulations you managed to beat you highest score of {current_high_score}!!!")
                         highscore.save_high_score(score)
+                        if game_state == "DEATHSCREEN":
+                            draw_text(f"Congratulations you managed to beat you highest score of {current_high_score}!!!", text_font, (255,255,255), SCREEN_WIDTH / 2, (SCREEN_HEIGHT / 2) - 40, centered=True)
                         current_high_score = score
-                    print(f"Highest score: {current_high_score}")
-                    exit()
+                    game_state = "DEATHSCREEN"
                 for bullet in shots:
                     if True == steroid.collision_check(bullet):
                         if steroid.radius == ASTEROID_MIN_RADIUS:  # Small asteroid
