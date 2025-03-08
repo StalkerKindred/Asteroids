@@ -7,4 +7,4 @@ Lost menu:
 show highscore
 show this session score
 meme you died
-option to quit or restart and tutorial
+option to quit or restart and tutorial #Done

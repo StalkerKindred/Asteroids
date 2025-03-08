@@ -76,9 +76,7 @@ def main():
                     previous_game_state = game_state
                 elif game_state == "DEATHSCREEN":
                     if event.key == pygame.K_r:
-                        game_state = "START"
-                        score = 0
-                        pygame.display.flip()
+                        main()
                     elif event.key == pygame.K_ESCAPE:
                         exit()
         #Screen
@@ -96,11 +94,12 @@ def main():
             draw_text("Press W to move forward and S to move backwards", text_font, (255,255,255), SCREEN_WIDTH * 0.10, SCREEN_HEIGHT * 0.20, centered=False)
             draw_text("Press A to rotate left and D to rotate right", text_font, (255,255,255), SCREEN_WIDTH * 0.10, SCREEN_HEIGHT * 0.30, centered=False)
             draw_text("Press Space to shoot bullets", text_font, (255,255,255), SCREEN_WIDTH * 0.10, SCREEN_HEIGHT * 0.40, centered=False)
-            draw_text("Shoots bullets at asteroids to increase your score", text_font, (255,255,255), SCREEN_WIDTH * 0.10, SCREEN_HEIGHT * 0.50, centered=False)
+            draw_text("Shoot bullets at asteroids to increase your score", text_font, (255,255,255), SCREEN_WIDTH * 0.10, SCREEN_HEIGHT * 0.50, centered=False)
             #Game
         elif game_state == "DEATHSCREEN":
-            draw_text(f"Your score: {score}", text_font, (255,255,255), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, centered=True)
-            draw_text("Press R to restart", text_font, (255,255,255), SCREEN_WIDTH / 2, (SCREEN_HEIGHT / 2) - 20, centered=True)
+            draw_text(f"Your High Score:{current_high_score}", text_font, (255,255,255), 20, 45, centered=False)
+            draw_text(f"Your Score: {score}", text_font, (255,255,255), 20, 20, centered=False)
+            draw_text("Press R to restart", text_font, (255,255,255), SCREEN_WIDTH / 2, (SCREEN_HEIGHT / 2), centered=True)
         elif game_state == "PLAYING":
             #Update
             for updating in updatable:
@@ -112,7 +111,7 @@ def main():
                 drawing.draw(screen)
             #Score
             draw_text(f"Score: {score}", text_font, (255,255,255), 20, 20, centered=False)
-            draw_text(f"High Score:{current_high_score}", text_font, (255,255,255), 20, 40, centered=False)
+            draw_text(f"High Score:{current_high_score}", text_font, (255,255,255), 20, 45, centered=False)
             #Collision check
             for steroid in asteroids:
                 if True == steroid.collision_check(player):
