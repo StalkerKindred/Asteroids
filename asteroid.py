@@ -5,6 +5,7 @@ from constants import ASTEROID_MIN_RADIUS,ASTEROID_MAX_RADIUS
 class Asteroid(CircleShape):
     def __init__(self, x, y, radius, origin_chain=None):
         super().__init__(x,y,radius)
+        self.alive = True
         self.radius = radius
         self.origin_chain = origin_chain or []
 
@@ -15,6 +16,9 @@ class Asteroid(CircleShape):
         self.position += (self.velocity * dt) 
     
     def split(self):
+        if not self.alive:
+            return
+        self.alive = False
         pygame.sprite.Sprite.kill(self)
         if self.radius == ASTEROID_MIN_RADIUS:
             return
